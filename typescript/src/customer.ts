@@ -20,33 +20,13 @@ export class Customer {
   public statement(): string {
     let result = "Rental Record for " + this.getName() + "\n";
 
-    for (const rental of this.rentals) {
-      let thisAmount = 0;
-
-      // determine amounts for each line
-      switch (rental.getMovie().getPriceCode()) {
-        case Movie.REGULAR:
-          thisAmount += 2;
-          if (rental.getDaysRented() > 2) {
-            thisAmount += (rental.getDaysRented() - 2) * 1.5;
-          }
-          break;
-        case Movie.NEW_RELEASE:
-          thisAmount += rental.getDaysRented() * 3;
-          break;
-        case Movie.CHILDRENS:
-          thisAmount += 1.5;
-          if (rental.getDaysRented() > 3) {
-            thisAmount += (rental.getDaysRented() - 3) * 1.5;
-          }
-          break;
-      }
+    for (const rental of this.rentals) {      
       // show figures for this rental
       result +=
         "\t" +
         rental.getMovie().getTitle() +
         "\t" +
-        thisAmount.toFixed(1) +
+        rental.getAmount().toFixed(1) +
         "\n";
     }
 
@@ -57,6 +37,23 @@ export class Customer {
     return result;
   }
   
+
+
+  private getFrequentRenterPoints(): number {
+    let frequentRenterPoints: number = 0;
+    for (const rental of this.rentals) {
+      // add frequent renter points
+      frequentRenterPoints++;
+      // add bonus for a two day new release rental
+      if (
+        rental.getMovie().getPriceCode() === Movie.NEW_RELEASE &&
+        rental.getDaysRented() > 1
+      )
+        frequentRenterPoints++;
+    }
+    return frequentRenterPoints;
+  }
+
   private calculateTotalAmount(): number {
     let totalAmount: number = 0;
 
@@ -85,20 +82,5 @@ export class Customer {
         totalAmount += thisAmount;
       }
       return totalAmount;
-  }
-
-  private getFrequentRenterPoints(): number {
-    let frequentRenterPoints: number = 0;
-    for (const rental of this.rentals) {
-      // add frequent renter points
-      frequentRenterPoints++;
-      // add bonus for a two day new release rental
-      if (
-        rental.getMovie().getPriceCode() === Movie.NEW_RELEASE &&
-        rental.getDaysRented() > 1
-      )
-        frequentRenterPoints++;
-    }
-    return frequentRenterPoints;
   }
 }

@@ -1,3 +1,5 @@
+import { Rental } from "./rental";
+
 export class Movie {
 
     public static CHILDRENS = 2;
@@ -16,12 +18,7 @@ export class Movie {
         return this.priceCode;
     }
 
-    public setPriceCode(arg: number) {
-        this.priceCode = arg;
-    }
-
     public getTitle(): string {
         return this.title;
     }
-
 }

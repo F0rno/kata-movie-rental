@@ -1,4 +1,4 @@
-import {Movie} from "./movie";
+import { Movie } from "./movie";
 
 export class Rental {
 
@@ -16,5 +16,30 @@ export class Rental {
 
     public getMovie(): Movie {
         return this.movie;
+    }
+
+    public getAmount(): number {
+        let thisAmount = 0;
+
+        // determine amounts for each line
+        switch (this.movie.getPriceCode()) {
+            case Movie.REGULAR:
+                thisAmount += 2;
+                if (this.getDaysRented() > 2) {
+                    thisAmount += (this.getDaysRented() - 2) * 1.5;
+                }
+                return thisAmount;
+            case Movie.NEW_RELEASE:
+                thisAmount += this.getDaysRented() * 3;
+                return thisAmount;
+            case Movie.CHILDRENS:
+            thisAmount += 1.5;
+                if (this.getDaysRented() > 3) {
+                    thisAmount += (this.getDaysRented() - 3) * 1.5;
+                }
+                return thisAmount;
+        }
+
+        return thisAmount;
     }
 }
