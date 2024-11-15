@@ -1,10 +1,12 @@
-import {Customer} from "./customer";
-import {Rental} from "./rental";
-import {Movie} from "./movie";
+import { Customer } from "./customer";
+import { Movie } from "./movie";
+import { PrinterASCII } from "./printerASCII";
+import { Rental } from "./rental";
 
 describe("Customer", () => {
     it("should test", () => {
-        const customer = new Customer("Bob");
+        const printer = new PrinterASCII()
+        const customer = new Customer("Bob", printer);
         customer.addRental(new Rental(new Movie("Jaws", Movie.REGULAR), 2));
         customer.addRental(new Rental(new Movie("Golden Eye", Movie.REGULAR), 3));
         customer.addRental(new Rental(new Movie("Short New", Movie.NEW_RELEASE), 1));

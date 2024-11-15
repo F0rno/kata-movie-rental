@@ -4,9 +4,11 @@ import { Rental } from "./rental";
 export class Customer {
   private name: string;
   private rentals: Rental[] = [];
+  private printer: Printer;
 
-  public constructor(name: string) {
+  public constructor(name: string, printer: Printer) {
     this.name = name;
+    this.printer = printer;
   }
 
   public addRental(arg: Rental) {
@@ -18,9 +20,7 @@ export class Customer {
   }
 
   public statement(): string {
-    const printer = new Printer()
-
-    return printer.statement(this.getName(), this.rentals, this.calculateTotalAmount(), this.getFrequentRenterPoints())
+    return this.printer.print(this.getName(), this.rentals, this.calculateTotalAmount(), this.getFrequentRenterPoints())
   }
 
   private getFrequentRenterPoints(): number {
