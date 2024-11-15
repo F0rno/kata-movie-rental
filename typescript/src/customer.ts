@@ -20,7 +20,7 @@ export class Customer {
   public statement(): string {
     let result = "Rental Record for " + this.getName() + "\n";
 
-    for (const rental of this.rentals) {      
+    for (const rental of this.rentals) {
       // show figures for this rental
       result +=
         "\t" +
@@ -32,12 +32,13 @@ export class Customer {
 
     // add footer lines
     result += "Amount owed is " + this.calculateTotalAmount().toFixed(1) + "\n";
-    result += "You earned " + this.getFrequentRenterPoints() + " frequent renter points";
+    result +=
+      "You earned " +
+      this.getFrequentRenterPoints() +
+      " frequent renter points";
 
     return result;
   }
-  
-
 
   private getFrequentRenterPoints(): number {
     let frequentRenterPoints: number = 0;
@@ -58,29 +59,8 @@ export class Customer {
     let totalAmount: number = 0;
 
     for (const rental of this.rentals) {
-        let thisAmount = 0;
-  
-        // determine amounts for each line
-        switch (rental.getMovie().getPriceCode()) {
-          case Movie.REGULAR:
-            thisAmount += 2;
-            if (rental.getDaysRented() > 2) {
-              thisAmount += (rental.getDaysRented() - 2) * 1.5;
-            }
-            break;
-          case Movie.NEW_RELEASE:
-            thisAmount += rental.getDaysRented() * 3;
-            break;
-          case Movie.CHILDRENS:
-            thisAmount += 1.5;
-            if (rental.getDaysRented() > 3) {
-              thisAmount += (rental.getDaysRented() - 3) * 1.5;
-            }
-            break;
-        }
-
-        totalAmount += thisAmount;
-      }
-      return totalAmount;
+      totalAmount += rental.getAmount();
+    }
+    return totalAmount;
   }
 }
