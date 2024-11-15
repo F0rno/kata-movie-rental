@@ -1,3 +1,4 @@
+import { Printer } from "./printer";
 import { Rental } from "./rental";
 
 export class Customer {
@@ -17,26 +18,9 @@ export class Customer {
   }
 
   public statement(): string {
-    let result = "Rental Record for " + this.getName() + "\n";
+    const printer = new Printer()
 
-    for (const rental of this.rentals) {
-      // show figures for this rental
-      result +=
-        "\t" +
-        rental.getMovie().getTitle() +
-        "\t" +
-        rental.getAmount().toFixed(1) +
-        "\n";
-    }
-
-    // add footer lines
-    result += "Amount owed is " + this.calculateTotalAmount().toFixed(1) + "\n";
-    result +=
-      "You earned " +
-      this.getFrequentRenterPoints() +
-      " frequent renter points";
-
-    return result;
+    return printer.statement(this.getName(), this.rentals, this.calculateTotalAmount(), this.getFrequentRenterPoints())
   }
 
   private getFrequentRenterPoints(): number {
