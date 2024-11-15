@@ -1,4 +1,3 @@
-import { Movie } from "./movie";
 import { Rental } from "./rental";
 
 export class Customer {
@@ -43,14 +42,7 @@ export class Customer {
   private getFrequentRenterPoints(): number {
     let frequentRenterPoints: number = 0;
     for (const rental of this.rentals) {
-      // add frequent renter points
-      frequentRenterPoints++;
-      // add bonus for a two day new release rental
-      if (
-        rental.getMovie().getPriceCode() === Movie.NEW_RELEASE &&
-        rental.getDaysRented() > 1
-      )
-        frequentRenterPoints++;
+      frequentRenterPoints += rental.addFrequentRenterPoints();
     }
     return frequentRenterPoints;
   }
