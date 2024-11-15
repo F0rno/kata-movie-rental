@@ -5,7 +5,7 @@ import { PrinterHTML } from "./printerHTML";
 import { Rental } from "./rental";
 
 describe("Customer", () => {
-  it("should test", () => {
+  it("prints ascii statement", () => {
     const printer = new PrinterASCII();
     const customer = new Customer("Bob", printer);
     customer.addRental(new Rental(new Movie("Jaws", Movie.REGULAR), 2));
@@ -32,7 +32,7 @@ describe("Customer", () => {
     expect(customer.statement()).toBe(expected);
   });
 
-  it("should test", () => {
+  it("prints html statement", () => {
     const printer = new PrinterHTML();
     const customer = new Customer("Bob", printer);
     customer.addRental(new Rental(new Movie("Jaws", Movie.REGULAR), 2));
