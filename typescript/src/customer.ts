@@ -18,7 +18,6 @@ export class Customer {
   }
 
   public statement(): string {
-    let frequentRenterPoints: number = 0;
     let result = "Rental Record for " + this.getName() + "\n";
 
     for (const rental of this.rentals) {
@@ -42,16 +41,6 @@ export class Customer {
           }
           break;
       }
-
-      // add frequent renter points
-      frequentRenterPoints++;
-      // add bonus for a two day new release rental
-      if (
-        rental.getMovie().getPriceCode() === Movie.NEW_RELEASE &&
-        rental.getDaysRented() > 1
-      )
-        frequentRenterPoints++;
-
       // show figures for this rental
       result +=
         "\t" +
@@ -63,7 +52,7 @@ export class Customer {
 
     // add footer lines
     result += "Amount owed is " + this.calculateTotalAmount().toFixed(1) + "\n";
-    result += "You earned " + frequentRenterPoints + " frequent renter points";
+    result += "You earned " + this.getFrequentRenterPoints() + " frequent renter points";
 
     return result;
   }
@@ -96,6 +85,20 @@ export class Customer {
         totalAmount += thisAmount;
       }
       return totalAmount;
+  }
 
+  private getFrequentRenterPoints(): number {
+    let frequentRenterPoints: number = 0;
+    for (const rental of this.rentals) {
+      // add frequent renter points
+      frequentRenterPoints++;
+      // add bonus for a two day new release rental
+      if (
+        rental.getMovie().getPriceCode() === Movie.NEW_RELEASE &&
+        rental.getDaysRented() > 1
+      )
+        frequentRenterPoints++;
+    }
+    return frequentRenterPoints;
   }
 }
